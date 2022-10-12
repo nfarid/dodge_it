@@ -3,6 +3,9 @@
 
 #include "macros.hpp"
 #include "typedefs.hpp"
+#include "project_info.hpp"
+
+#include <string_view>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -12,6 +15,9 @@
 
 namespace Util
 {
+
+
+using std::string_view;
 
 
 namespace
@@ -56,7 +62,7 @@ Path getResDir() {
 #ifdef __EMSCRIPTEN__
     return "data";
 #else
-    const static fs::path resource_directory = getExeDir().parent_path() / u8"share" / PROJECT_NAME;
+    const static fs::path resource_directory = getExeDir().parent_path() / u8"share" / string_view(projectName() );
     return resource_directory;
 #endif // ifdef __EMSCRIPTEN__
 }
