@@ -1,0 +1,3 @@
+[submodule "external/SDL_FontCache"]
+	path = external/SDL_FontCache
+	url = https://github.com/nfarid/SDL_FontCache

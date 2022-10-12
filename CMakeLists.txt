@@ -74,7 +74,5 @@ symlink("${RES_SRC}" "${RES_DEST}")
 
 #Actual builds
 
+add_subdirectory("external/")
 add_subdirectory("src/")
-
-
-
