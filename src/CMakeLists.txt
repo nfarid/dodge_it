@@ -2,6 +2,8 @@
 add_executable("dodge_it"
     "main.cpp"
 
+    "game/playing_state.cpp" "game/playing_state.hpp"
+
     "media/core.hpp"
     "media/camera.cpp" "media/camera.hpp"
     "media/drawable.cpp" "media/drawable.hpp"

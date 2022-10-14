@@ -1,0 +1,5 @@
+
+#ifndef HPP_GAME_PLAYINGSTATE_
+#define HPP_GAME_PLAYINGSTATE_
+
+#endif // ifndef HPP_GAME_PLAYINGSTATE_
