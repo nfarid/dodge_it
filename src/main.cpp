@@ -29,9 +29,9 @@ namespace
 
 class BasicState : public Media::GameState {
 public:
-    explicit BasicState(Media::GameContext* ctx_) :
+    explicit BasicState(Media::GameContext& ctx_) :
         Media::GameState{ctx_} {
-        auto& resources = rCtx->resourceManager;
+        auto& resources = rCtx.resourceManager;
     }
 
     void handleInput() override {
@@ -45,7 +45,7 @@ public:
                 }
                 break;
             case SDL_QUIT:
-                rCtx->quit = true;
+                rCtx.quit = true;
                 break;
             default:
                 break;
@@ -56,14 +56,14 @@ public:
     void update(Util::Second) override {}
 
     void draw() override {
-        rCtx->window.clear();
+        rCtx.window.clear();
 
         using namespace Media;
         const auto rect = PixelRect::leftTopSize({200_pl, 200_pl}, {100_pl, 100_pl});
         const SDL_Colour colour{0xFF, 0x00, 0x00, 0xFF};
-        rCtx->window.draw(rect, colour);
+        rCtx.window.draw(rect, colour);
 
-        rCtx->window.display();
+        rCtx.window.display();
     }
 };
 
@@ -151,7 +151,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     }
 
     // Initial state
-    sCtx->stateMachine.addState(std::make_unique<BasicState>(sCtx.get() ) );
+    sCtx->stateMachine.addState(std::make_unique<BasicState>(*sCtx) );
     sCtx->stateMachine.processStateChanges();
 
     // Game loop variables

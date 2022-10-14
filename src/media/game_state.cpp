@@ -8,11 +8,9 @@ namespace Media
 
 GameState::~GameState() = default;
 
-GameState::GameState(GameContext* ctx_) :
+GameState::GameState(GameContext& ctx_) :
     rCtx{ctx_}
 {}
-
-// prevents weak-vtables
 
 
 } // namespace Media
