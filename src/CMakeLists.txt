@@ -3,6 +3,7 @@ add_executable("dodge_it"
     "main.cpp"
 
     "game/circle.hpp"
+    "game/enemy.cpp" "game/enemy.hpp"
     "game/playing_state.cpp" "game/playing_state.hpp"
 
     "media/core.hpp"
