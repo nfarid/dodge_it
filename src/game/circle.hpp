@@ -3,7 +3,7 @@
 #define HPP_GAME_CIRCLE_
 
 #include "../util/macros.hpp"
-#include "../util/vec2.hpp"
+#include "../util/rect.hpp"
 
 
 namespace Game
@@ -28,6 +28,10 @@ struct Circle {
 
     [[nodiscard]] Util::BasePositionScalar y() const {
         return pos.y;
+    }
+
+    [[nodiscard]] Util::BaseRect aabb() const {
+        return Util::BaseRect::centreSize(pos, {r*2.0f, r*2.0f});
     }
 
     [[nodiscard]] bool isValid() const {
