@@ -108,6 +108,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     sCtx->stateMachine.addState(std::make_unique<Game::PlayingState>(*sCtx) );
     sCtx->stateMachine.processStateChanges();
 
+    // Load basic assets
+    sCtx->resourceManager.loadTexture(u8"images/circles.png", "circles");
+
     // Game loop variables
     constexpr static Util::Hertz idealTickRate = 64_hz;
     constexpr static Util::Second idealTickDuration = 1_r / idealTickRate;
