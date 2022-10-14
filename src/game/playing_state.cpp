@@ -1,13 +1,16 @@
 
 #include "playing_state.hpp"
 
+#include "../media/game_context.hpp"
+
 
 namespace Game
 {
 
 
 PlayingState::PlayingState(Media::GameContext& ctx_) :
-    Media::GameState{ctx_}
+    Media::GameState{ctx_},
+    mEnemy{ctx_.resourceManager.getTexture("circles")}
 {}
 
 void PlayingState::handleInput() {
@@ -19,7 +22,10 @@ void PlayingState::update(Util::Second dt) {
 }
 
 void PlayingState::draw() {
-    Media::GameState::draw();
+    auto& window = rCtx.window;
+    window.clear();
+    window.draw(mEnemy);
+    window.display();
 }
 
 

@@ -2,6 +2,8 @@
 #ifndef HPP_GAME_PLAYINGSTATE_
 #define HPP_GAME_PLAYINGSTATE_
 
+#include "enemy.hpp"
+
 #include "../media/game_state.hpp"
 
 
@@ -18,6 +20,7 @@ public:
     void draw() override;
 
 private:
+    Enemy mEnemy;
 };
 
 
