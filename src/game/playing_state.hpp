@@ -11,10 +11,11 @@ namespace Game
 
 class PlayingState : public Media::GameState {
 public:
+    explicit PlayingState(Media::GameContext& ctx_);
 
-    virtual void handleInput();
-    virtual void update(Util::Second dt);
-    virtual void draw();
+    void handleInput() override;
+    void update(Util::Second dt) override;
+    void draw() override;
 
 private:
 };

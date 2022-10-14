@@ -6,11 +6,21 @@ namespace Game
 {
 
 
-void PlayingState::handleInput() {}
+PlayingState::PlayingState(Media::GameContext& ctx_) :
+    Media::GameState{ctx_}
+{}
 
-void PlayingState::update(Util::Second dt) {}
+void PlayingState::handleInput() {
+    Media::GameState::handleInput();
+}
 
-void PlayingState::draw() {}
+void PlayingState::update(Util::Second dt) {
+    Media::GameState::update(dt);
+}
+
+void PlayingState::draw() {
+    Media::GameState::draw();
+}
 
 
 } // namespace Game

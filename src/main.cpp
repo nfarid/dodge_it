@@ -1,4 +1,6 @@
 
+#include "game/playing_state.hpp"
+
 #include "media/game_context.hpp"
 #include "media/game_state_machine.hpp"
 #include "media/resource_manager.hpp"
@@ -21,34 +23,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
-
-
-namespace
-{
-
-
-class BasicState : public Media::GameState {
-public:
-    explicit BasicState(Media::GameContext& ctx_) :
-        Media::GameState{ctx_} {
-        auto& resources = rCtx.resourceManager;
-    }
-
-    void handleInput() override {
-        Media::GameState::handleInput();
-    }
-
-    void update(Util::Second dt) override {
-        Media::GameState::update(dt);
-    }
-
-    void draw() override {
-        Media::GameState::draw();
-    }
-};
-
-
-} // namespace
 
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
@@ -131,7 +105,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     }
 
     // Initial state
-    sCtx->stateMachine.addState(std::make_unique<BasicState>(*sCtx) );
+    sCtx->stateMachine.addState(std::make_unique<Game::PlayingState>(*sCtx) );
     sCtx->stateMachine.processStateChanges();
 
     // Game loop variables
