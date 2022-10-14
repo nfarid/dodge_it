@@ -35,35 +35,15 @@ public:
     }
 
     void handleInput() override {
-        SDL_Event ev;
-        while(SDL_PollEvent(&ev) ) {
-            switch(ev.type) {
-            case SDL_KEYDOWN:
-                switch(ev.key.keysym.sym) {
-                case SDLK_UP:
-                    break;
-                }
-                break;
-            case SDL_QUIT:
-                rCtx.quit = true;
-                break;
-            default:
-                break;
-            }
-        }
+        Media::GameState::handleInput();
     }
 
-    void update(Util::Second) override {}
+    void update(Util::Second dt) override {
+        Media::GameState::update(dt);
+    }
 
     void draw() override {
-        rCtx.window.clear();
-
-        using namespace Media;
-        const auto rect = PixelRect::leftTopSize({200_pl, 200_pl}, {100_pl, 100_pl});
-        const SDL_Colour colour{0xFF, 0x00, 0x00, 0xFF};
-        rCtx.window.draw(rect, colour);
-
-        rCtx.window.display();
+        Media::GameState::draw();
     }
 };
 

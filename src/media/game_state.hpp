@@ -18,7 +18,7 @@ class GameState
 {
 public:
 
-    virtual ~GameState(); // A default virtual destructor (not defined here to prevent weak-vtables)
+    virtual ~GameState() = default; // A default virtual destructor
     GameState& operator=(GameState&&) = delete; // no copy nor move
 
     // These abstract methods must be implemented in the dervied classes
