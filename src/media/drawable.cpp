@@ -6,8 +6,9 @@ namespace Media
 {
 
 
-// Prevents weak v-tables
-Drawable::~Drawable() = default;
+// At least one definition is needed to prevent weak v-tables
+
+void Drawable::draw(Window&) const {}
 
 
 } // namespace Media

@@ -20,17 +20,17 @@ class Drawable
 protected:
     friend class Window;
 
-    virtual void draw(Window& window) const = 0;
-
     // Virtual destructor for polymorphic base class
-    virtual ~Drawable(); // = default
-
+    virtual ~Drawable() = default;
     // Rule of 5
     explicit Drawable() = default;
     UTIL_IMPLICIT Drawable(const Drawable&) = default;
     Drawable& operator=(const Drawable&) = default;
     UTIL_IMPLICIT Drawable(Drawable&&) = default;
     Drawable& operator=(Drawable&&) = default;
+
+    // The draw method that must be implemented for Drawable classes
+    virtual void draw(Window& window) const = 0;
 };
 
 
