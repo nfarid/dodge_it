@@ -6,11 +6,14 @@
 
 #include <SDL2/SDL_keyboard.h>
 
-#include <utility>
+#include <string>
 
 
 namespace Media
 {
+
+
+using std::string_literals::operator""s;
 
 
 namespace
@@ -32,13 +35,35 @@ PixelDisplacement getWindowSize(SDL_Window* window) {
 } // namespace
 
 
-UniquePtrSDLWindow createSDLWindow(const char* title, int x, int y, int w, int h, Uint32 flags) {
-    return {SDL_CreateWindow(title, x, y, w, h, flags), &SDL_DestroyWindow};
+std::pair<SDLRendererUniquePtr, SDLWindowUniquePtr>
+createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, Uint32 windowFlags)
+{
+    const auto width = static_cast<int>(windowSize.x.value);
+    const auto height = static_cast<int>(windowSize.y.value);
+
+    /*uninitialised*/ Util::DumbPtr<SDL_Window> window;
+    /*uninitialised*/ Util::DumbPtr<SDL_Renderer> renderer;
+    if(SDL_CreateWindowAndRenderer(width, height, windowFlags, &window, &renderer) != 0)
+        throw std::runtime_error("Unable to create renderer or window:\n"s + SDL_GetError() );
+
+    SDL_SetWindowTitle(window, title.c_str() );
+    SDL_RenderSetLogicalSize(renderer, width, height); // for resolution independence
+
+    return {
+        SDLRendererUniquePtr{renderer},
+        SDLWindowUniquePtr{window}
+    };
 }
 
-UniquePtrSDLRenderer createSDLRenderer(SDL_Window* window, int index, Uint32 flags) {
-    return {SDL_CreateRenderer(window, index, flags), &SDL_DestroyRenderer};
-}
+
+
+// UniquePtrSDLWindow createSDLWindow(const char* title, int x, int y, int w, int h, Uint32 flags) {
+//    return {SDL_CreateWindow(title, x, y, w, h, flags), &SDL_DestroyWindow};
+// }
+
+// UniquePtrSDLRenderer createSDLRenderer(SDL_Window* window, int index, Uint32 flags) {
+//    return {SDL_CreateRenderer(window, index, flags), &SDL_DestroyRenderer};
+// }
 
 std::span<const uint8_t> keyboardState() {
     UTIL_UNINIT int len;
@@ -47,7 +72,7 @@ std::span<const uint8_t> keyboardState() {
 }
 
 
-Window::Window(UniquePtrSDLWindow window_, UniquePtrSDLRenderer renderer_) :
+Window::Window(SDLRendererUniquePtr&& renderer_, SDLWindowUniquePtr&& window_) :
     mWindow{std::move(window_)},
     mRenderer{std::move(renderer_)},
     mCamera{getWindowSize(mWindow.get() )}

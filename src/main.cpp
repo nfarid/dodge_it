@@ -7,6 +7,7 @@
 #include "media/window.hpp"
 
 #include "util/dimension.hpp"
+#include "util/project_info.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -28,6 +29,8 @@
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     using namespace Util::Udl;
     using namespace std::chrono;
+
+    std::cout<<Util::projectName()<<" ; "<<Util::projectVersion()<<std::endl;
 
     // Initialising phase
     {
@@ -74,19 +77,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     static std::unique_ptr<Media::GameContext> sCtx = nullptr;
     {
         // Window and renderer creation
-        auto sdlWindow = Media::createSDLWindow("basic",
-                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                800, 600,
-                0);
-        if(!sdlWindow) {
-            std::cerr<<"Failed creating the sdl window: "<<SDL_GetError()<<std::endl;
-            return EXIT_FAILURE;
-        }
-        auto sdlRenderer = Media::createSDLRenderer(sdlWindow.get(), -1, 0);
-        if(!sdlRenderer) {
-            std::cerr<<"Failed create the sdl renderer: "<<SDL_GetError()<<std::endl;
-            return EXIT_FAILURE;
-        }
+        auto [sdlRenderer, sdlWindow] = Media::createSDLRendererWindow(
+            Util::projectName(),
+            Media::windowsSize,
+            SDL_WINDOW_RESIZABLE
+        );
         #if defined(_WIN32) && defined(NDEBUG)
         HWND windowHandle = GetConsoleWindow();
         ShowWindow(windowHandle, SW_HIDE);
@@ -94,7 +89,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
 
         Media::ResourceManager resourceManager{sdlRenderer.get()};
         Media::GameStateMachine gameStateMachine;
-        Media::Window window{std::move(sdlWindow), std::move(sdlRenderer)};
+        Media::Window window{std::move(sdlRenderer), std::move(sdlWindow)};
 
         sCtx = std::make_unique<Media::GameContext>(Media::GameContext{
             std::move(gameStateMachine),

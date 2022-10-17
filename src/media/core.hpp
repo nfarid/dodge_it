@@ -21,11 +21,6 @@ using Util::Udl::operator""_r;
 } // namespace Udl
 
 
-// Constants
-constexpr Util::Hertz idealTickRate = 64_hz;
-constexpr Util::Second idealTickDuration = 1_r / idealTickRate;
-
-
 // Typedefs
 constexpr intmax_t defaultPixelsPerBlock = 32;
 using PixelRatio = std::ratio<1, defaultPixelsPerBlock>;
@@ -48,6 +43,12 @@ inline namespace Udl
 [[nodiscard]] constexpr PixelLength operator"" _pl(unsigned long long int i) noexcept {
     return PixelLength{static_cast<Util::Real>(i)};
 }
+
+
+// Constants
+constexpr Util::Hertz idealTickRate = 64_hz;
+constexpr Util::Second idealTickDuration = 1_r / idealTickRate;
+constexpr PixelDisplacement windowsSize = {1024_pl, 768_pl};
 
 
 } // namespace Udl

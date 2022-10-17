@@ -4,6 +4,7 @@
 
 #include "camera.hpp"
 
+#include "../util/cstring_view.hpp"
 #include "../util/rect.hpp"
 #include "../util/typedefs.hpp"
 
@@ -12,6 +13,7 @@
 #include <memory>
 #include <span>
 #include <vector>
+#include <utility>
 
 
 namespace Media
@@ -21,9 +23,28 @@ namespace Media
 class Sprite;
 class Drawable;
 
+struct SDLRendererWindowDeleter {
+    void operator()(SDL_Window* window) {
+        SDL_DestroyWindow(window);
+    }
+    void operator()(SDL_Renderer* renderer){
+        SDL_DestroyRenderer(renderer);
+    }
+};
 
-using UniquePtrSDLWindow = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-using UniquePtrSDLRenderer = std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+using SDLWindowUniquePtr = std::unique_ptr<SDL_Window, SDLRendererWindowDeleter>;
+using SDLRendererUniquePtr = std::unique_ptr<SDL_Renderer, SDLRendererWindowDeleter>;
+
+/**
+ * @brief Creates an SDL_Renderer and SDL_Window
+ * @param title: the title of the window
+ * @param windowSize: the size of the window as a vector
+ * @param windowFlags: can be these flags OR'd from https://wiki.libsdl.org/SDL_CreateWindow#remarks
+ * @throws runtime_error if this is unable to create a renderer or window
+ */
+std::pair<SDLRendererUniquePtr, SDLWindowUniquePtr>
+createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, Uint32 windowFlags);
+
 
 /**
  * @brief Get a snapshot of the current state of the keyboard.
@@ -31,15 +52,13 @@ using UniquePtrSDLRenderer = std::unique_ptr<SDL_Renderer, decltype(&SDL_Destroy
  */
 std::span<const uint8_t> keyboardState();
 
-UniquePtrSDLWindow createSDLWindow(const char* title, int x, int y, int w, int h, Uint32 flags);
-UniquePtrSDLRenderer createSDLRenderer(SDL_Window* window, int index, Uint32 flags);
 
 /**
  * @brief A window for 2D rendering.
  */
 class Window {
 public:
-    explicit Window(UniquePtrSDLWindow window_, UniquePtrSDLRenderer renderer_);
+    explicit Window(SDLRendererUniquePtr&& renderer_, SDLWindowUniquePtr&& window_);
 
     void clear();
     void draw(const Drawable& drawable);
@@ -54,8 +73,8 @@ private:
         std::vector<int> indexLst;
     };
 
-    UniquePtrSDLWindow mWindow;
-    UniquePtrSDLRenderer mRenderer;
+    SDLWindowUniquePtr mWindow;
+    SDLRendererUniquePtr mRenderer;
     Camera mCamera;
     std::vector<TextureBatch> mBatchLst{};
 };
