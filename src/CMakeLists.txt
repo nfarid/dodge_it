@@ -1,4 +1,7 @@
 
+include("${PROJECT_SOURCE_DIR}/cmake/options.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/warnings.cmake")
+
 add_executable("dodge_it"
     "main.cpp"
 
@@ -47,3 +50,7 @@ target_link_libraries("dodge_it"
     PRIVATE "SDL2::ttf"
     PRIVATE "SDL_FontCache"
 )
+
+if(ENABLE_ADDITIONAL_WARNING)
+    add_additional_warnings("dodge_it")
+endif()
