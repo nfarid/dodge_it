@@ -4,6 +4,8 @@
 #include "../media/core.hpp"
 #include "../media/game_context.hpp"
 
+#include <SDL2/SDL_events.h>
+
 
 namespace Game
 {
@@ -30,7 +32,20 @@ PlayingState::PlayingState(Media::GameContext& ctx_) :
 {}
 
 void PlayingState::handleInput() {
-    Media::GameState::handleInput();
+    SDL_Event ev;
+    while(SDL_PollEvent(&ev) ) {
+        switch(ev.type) {
+        case SDL_MOUSEBUTTONDOWN:
+            break;
+        case SDL_MOUSEBUTTONUP:
+            break;
+        case SDL_QUIT:
+            rCtx.quit = true;
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void PlayingState::update(Util::Second dt) {
