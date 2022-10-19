@@ -25,6 +25,8 @@ const Media::Animation playerAnimation = {
     .frameLst={playerFrame},
 };
 
+const Util::BaseSpeed playerSpeed = 5_blPs;
+
 
 } // namespace
 
@@ -34,6 +36,25 @@ Player::Player(SDL_Texture* texture_) :
     mSprite{ texture_, {playerAnimation} },
     mVel{ 0_blPs, 0_blPs}
 {}
+
+void Player::update(Util::Second dt) {
+    mCircle.pos += mVel * dt;
+}
+
+void Player::startFollowingMouse() {
+    mFollowMouse = true;
+}
+
+void Player::stopFollowingMouse() {
+    mFollowMouse = false;
+}
+
+void Player::takeMousePosition(Util::BasePosition mousePos_) {
+    if(!mFollowMouse)
+        return;
+    const auto disp = mousePos_ - mCircle.pos;
+    mVel = disp.unit() * playerSpeed;
+}
 
 void Player::draw(Media::Window& window) const {
     window.draw(mSprite, mCircle.aabb() );

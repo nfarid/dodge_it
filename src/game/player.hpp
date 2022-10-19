@@ -20,10 +20,18 @@ class Player : public Media::Drawable  {
 public:
     explicit Player(SDL_Texture* texture_);
 
+    void update(Util::Second dt);
+
+    void startFollowingMouse();
+    void stopFollowingMouse();
+    void takeMousePosition(Util::BasePosition mousePos_);
+
 private:
     Circle mCircle{};
     Media::Sprite mSprite;
     Util::BaseVelocity mVel{};
+
+    bool mFollowMouse;
 
     void draw(Media::Window& window) const override;
 };

@@ -37,8 +37,10 @@ void PlayingState::handleInput() {
     while(SDL_PollEvent(&ev) ) {
         switch(ev.type) {
         case SDL_MOUSEBUTTONDOWN:
+            mPlayer.startFollowingMouse();
             break;
         case SDL_MOUSEBUTTONUP:
+            mPlayer.stopFollowingMouse();
             break;
         case SDL_QUIT:
             rCtx.quit = true;
@@ -47,6 +49,7 @@ void PlayingState::handleInput() {
             break;
         }
     }
+    mPlayer.takeMousePosition(rCtx.window.mouseWorldCoord() );
 }
 
 void PlayingState::update(Util::Second dt) {
@@ -55,6 +58,8 @@ void PlayingState::update(Util::Second dt) {
         mEnemy.applyImpulseY(-2.0f * mEnemy.getMomentumY() );
     if(mEnemy.getCircle().left() <= worldRect.left() || mEnemy.getCircle().right() >= worldRect.right() )
         mEnemy.applyImpulseX(-2.0f * mEnemy.getMomentumX() );
+
+    mPlayer.update(dt);
 }
 
 void PlayingState::draw() {
