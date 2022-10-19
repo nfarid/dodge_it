@@ -3,6 +3,7 @@
 
 #include "camera.hpp"
 
+#include <cassert>
 #include <utility>
 
 
@@ -36,7 +37,9 @@ Sprite::Sprite(SDL_Texture* texture_, std::vector<Animation> animationLst_) :
     mAnimationIndex{0},
     mFrameIndex{0},
     mElasped{0_s}
-{}
+{
+    assert(texture_ && "Sprite cannot take a null texture");
+}
 
 std::array<SDL_Vertex, 4> Sprite::getVertices(const BaseRect& posRect, const Camera& camera) const
 {
