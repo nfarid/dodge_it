@@ -28,7 +28,8 @@ constexpr auto worldRect = Util::BaseRect::leftTopSize({0_bl, 0_bl}, worldSize);
 
 PlayingState::PlayingState(Media::GameContext& ctx_) :
     Media::GameState{ctx_},
-    mEnemy{ctx_.resourceManager.getTexture("circles")}
+    mEnemy{ctx_.resourceManager.getTexture("circles")},
+    mPlayer{ctx_.resourceManager.getTexture("circles")}
 {}
 
 void PlayingState::handleInput() {
@@ -60,6 +61,7 @@ void PlayingState::draw() {
     auto& window = rCtx.window;
     window.clear();
     window.draw(mEnemy);
+    window.draw(mPlayer);
     window.display();
 }
 
