@@ -35,6 +35,10 @@ void PlayingState::handleInput() {
 
 void PlayingState::update(Util::Second dt) {
     mEnemy.update(dt);
+    if(mEnemy.getCircle().top() <= worldRect.top() || mEnemy.getCircle().bottom() >= worldRect.bottom() )
+        mEnemy.applyImpulseY(-2.0f * mEnemy.getMomentumY() );
+    if(mEnemy.getCircle().left() <= worldRect.left() || mEnemy.getCircle().right() >= worldRect.right() )
+        mEnemy.applyImpulseX(-2.0f * mEnemy.getMomentumX() );
 }
 
 void PlayingState::draw() {

@@ -19,13 +19,22 @@ public:
     explicit Enemy(SDL_Texture* texture_);
 
     Circle getCircle() const;
+    Util::BaseMomentum getMomentum() const;
+    Util::BaseMomentumScalar getMomentumX() const;
+    Util::BaseMomentumScalar getMomentumY() const;
 
     void update(Util::Second dt);
+    void multipleSpeedX(float x);
+    void multipleSpeedY(float y);
+    void applyImpulse(Util::BaseImpulse dp);
+    void applyImpulseX(Util::BaseImpulseScalar dpX);
+    void applyImpulseY(Util::BaseImpulseScalar dpY);
 
 private:
     Circle mCircle{};
     Media::Sprite mSprite;
     Util::BaseVelocity mVel{};
+    Util::BaseMass mMass{};
 
     void draw(Media::Window& window) const override;
 };
