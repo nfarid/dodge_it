@@ -18,9 +18,14 @@ class Enemy : public Media::Drawable {
 public:
     explicit Enemy(SDL_Texture* texture_);
 
+    Circle getCircle() const;
+
+    void update(Util::Second dt);
+
 private:
     Circle mCircle{};
     Media::Sprite mSprite;
+    Util::BaseVelocity mVel{};
 
     void draw(Media::Window& window) const override;
 };

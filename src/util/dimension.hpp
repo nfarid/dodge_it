@@ -141,6 +141,14 @@ inline namespace Udl
     return BaseLength{static_cast<Real>(i)};
 }
 
+[[nodiscard]] constexpr BaseSpeed operator"" _blPs(long double f) noexcept {
+    return BaseSpeed{static_cast<Real>(f)};
+}
+
+[[nodiscard]] constexpr BaseSpeed operator"" _blPs(unsigned long long int i) noexcept {
+    return BaseSpeed{static_cast<Real>(i)};
+}
+
 [[nodiscard]] constexpr BaseMass operator"" _bm(long double f) noexcept {
     return BaseMass{static_cast<Real>(f)};
 }

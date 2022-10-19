@@ -34,6 +34,22 @@ struct Circle {
         return Util::BaseRect::centreSize(pos, {r*2.0f, r*2.0f});
     }
 
+    [[nodiscard]] Util::BasePositionScalar left() const {
+        return x() - r;
+    }
+
+    [[nodiscard]] Util::BasePositionScalar right() const {
+        return x() + r;
+    }
+
+    [[nodiscard]] Util::BasePositionScalar top() const {
+        return y() - r;
+    }
+
+    [[nodiscard]] Util::BasePositionScalar bottom() const {
+        return y() + r;
+    }
+
     [[nodiscard]] bool isValid() const {
         return r >= Util::BaseDistance::zero();
     }

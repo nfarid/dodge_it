@@ -32,8 +32,17 @@ const Media::Animation circleAnimation = {
 
 Enemy::Enemy(SDL_Texture* texture_) :
     mCircle{.r=2_bl, .pos={10_bl, 10_bl} },
-    mSprite{ texture_, {circleAnimation} }
+    mSprite{ texture_, {circleAnimation} },
+    mVel{ 1_blPs, -1_blPs}
 {}
+
+Circle Enemy::getCircle() const {
+    return mCircle;
+}
+
+void Enemy::update(Util::Second dt) {
+    mCircle.pos += mVel * dt;
+}
 
 void Enemy::draw(Media::Window& window) const {
     window.draw(mSprite, mCircle.aabb() );
