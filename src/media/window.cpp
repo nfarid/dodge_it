@@ -5,6 +5,7 @@
 #include "sprite.hpp"
 
 #include <SDL2/SDL_keyboard.h>
+#include <SDL2/SDL_mouse.h>
 
 #include <string>
 
@@ -55,16 +56,6 @@ createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, U
     };
 }
 
-
-
-// UniquePtrSDLWindow createSDLWindow(const char* title, int x, int y, int w, int h, Uint32 flags) {
-//    return {SDL_CreateWindow(title, x, y, w, h, flags), &SDL_DestroyWindow};
-// }
-
-// UniquePtrSDLRenderer createSDLRenderer(SDL_Window* window, int index, Uint32 flags) {
-//    return {SDL_CreateRenderer(window, index, flags), &SDL_DestroyRenderer};
-// }
-
 std::span<const uint8_t> keyboardState() {
     UTIL_UNINIT int len;
     const uint8_t* ptr = SDL_GetKeyboardState(&len);
@@ -77,6 +68,29 @@ Window::Window(SDLRendererUniquePtr&& renderer_, SDLWindowUniquePtr&& window_) :
     mRenderer{std::move(renderer_)},
     mCamera{getWindowSize(mWindow.get() )}
 {}
+
+PixelDisplacement Window::currentSize() const {
+    int w; /*uninitialised*/
+    /*uninitialised*/ int h;
+    SDL_GetWindowSize(mWindow.get(), &w, &h);
+    return {
+        PixelDistance{static_cast<float>(w)},
+        PixelDistance{static_cast<float>(h)},
+    };
+}
+
+Util::BasePosition Window::mouseWorldCoord() const {
+    int x; /*uninitialised*/
+    /*uninitialised*/ int y;
+    SDL_GetMouseState(&x, &y);
+    const PixelDisplacement mouseExactScreenPos{
+        PixelDistance{static_cast<float>(x)},
+        PixelDistance{static_cast<float>(y)},
+    };
+    const auto mouseRelPos = elemDiv(mouseExactScreenPos, currentSize() );
+    const auto mouseLogicalScreenPos = elemMul(mouseRelPos, mCamera.getWindowBound().size() );
+    return mCamera.toWorldCoord(mouseLogicalScreenPos);
+}
 
 void Window::clear() {
     SDL_SetRenderDrawColor(mRenderer.get(), 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);

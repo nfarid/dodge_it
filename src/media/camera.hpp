@@ -19,8 +19,12 @@ class Camera
 public:
     explicit Camera(PixelDisplacement windowSize);
 
+    PixelRect getWindowBound() const;
+    Util::BaseRect getViewBound() const;
+
     [[nodiscard]] bool isVisible(Util::BaseRect posRect) const;
-    [[nodiscard]] PixelPosition toScreenCoord(Util::BasePosition worldCoordPos) const;
+    [[nodiscard]] PixelPosition toScreenCoord(Util::BasePosition worldCoord) const;
+    [[nodiscard]] Util::BasePosition toWorldCoord(PixelPosition screenCoord) const;
 
 private:
     PixelRect mWindowRect;

@@ -60,6 +60,9 @@ class Window {
 public:
     explicit Window(SDLRendererUniquePtr&& renderer_, SDLWindowUniquePtr&& window_);
 
+    PixelDisplacement currentSize() const;
+    Util::BasePosition mouseWorldCoord() const;
+
     void clear();
     void draw(const Drawable& drawable);
     void draw(const Sprite& sprite, const Util::BaseRect& posRect);
