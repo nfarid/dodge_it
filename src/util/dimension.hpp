@@ -340,7 +340,11 @@ nearly_equal(Dim<T, L, M, S, R> lhs, Dim<T, L, M, S, R> rhs, T ep)
 
 template<typename T, int L, int M, int S, typename R>
 [[nodiscard]] inline auto sqrt(Dim<T, L, M, S, R> u) {
-    return Dim<T, L, M, S, R>{std::sqrt(u.value)};
+    constexpr static auto isEven = [](int x){return (x%2)==0;};
+    static_assert(isEven(L), "length dimension must be even");
+    static_assert(isEven(M), "mass dimension must be even");
+    static_assert(isEven(S), "time dimension must be even");
+    return Dim<T, L/2, M/2, S/2, R>{std::sqrt(u.value)};
 }
 
 template<typename T, int L, int M, int S, typename R>

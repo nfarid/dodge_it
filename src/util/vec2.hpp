@@ -29,12 +29,21 @@ struct Vec2 {
         return x == U{} && y == U{};
     }
 
-    [[nodiscard]] constexpr auto sqrMag() const {
+    [[nodiscard]] constexpr auto squareMag() const {
         return x*x + y*y;
     }
 
-    [[nodiscard]] constexpr auto magnitude() const {
+    [[nodiscard]] constexpr auto mag() const {
         return sqrt(x*x + y*y);
+    }
+
+    [[nodiscard]] constexpr auto unit() const {
+        const auto magnitude = mag();
+        using NoUnit = decltype(std::declval<U>() / magnitude);
+        return Vec2<NoUnit>{
+            x/magnitude,
+            y/magnitude,
+        };
     }
 
     template<typename V>
