@@ -42,3 +42,12 @@ function(add_additional_warnings TARGET_NAME)
         endif()
     endif()
 endfunction()
+
+
+function(treat_warnings_as_errors TARGET_NAME)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options("${TARGET_NAME}"
+            PRIVATE "-Werror"
+        )
+    endif()
+endfunction()

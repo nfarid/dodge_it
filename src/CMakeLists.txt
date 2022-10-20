@@ -1,6 +1,6 @@
 
-include("${PROJECT_SOURCE_DIR}/cmake/options.cmake")
-include("${PROJECT_SOURCE_DIR}/cmake/warnings.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/build_options.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/compiler_flags.cmake")
 
 add_executable("dodge_it"
     "main.cpp"
@@ -54,4 +54,7 @@ target_link_libraries("dodge_it"
 
 if(ENABLE_ADDITIONAL_WARNING)
     add_additional_warnings("dodge_it")
+endif()
+if(ENABLE_WARNING_AS_ERROR)
+    treat_warnings_as_errors("dodge_it")
 endif()
