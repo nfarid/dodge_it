@@ -23,7 +23,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <memory>
+#include <optional>
 
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
@@ -74,7 +74,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
     }
 
     // Creating the game context
-    static std::unique_ptr<Media::GameContext> sCtx = nullptr;
+    // Note that this is static so it can outlive the main function
+    static std::optional<Media::GameContext> sCtx = std::nullopt;
     {
         // Window and renderer creation
         auto [sdlRenderer, sdlWindow] = Media::createSDLRendererWindow(
@@ -91,12 +92,12 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) {
         Media::GameStateMachine gameStateMachine;
         Media::Window window{std::move(sdlRenderer), std::move(sdlWindow)};
 
-        sCtx = std::make_unique<Media::GameContext>(Media::GameContext{
+        sCtx = {
             std::move(gameStateMachine),
             std::move(resourceManager),
             std::move(window),
             false,
-        });
+        };
     }
 
     // Load basic assets
