@@ -7,17 +7,6 @@
 // Since static have multiple meanings
 #define UTIL_INTERNAL static
 
-// To explicitly state a constructor or conversion is implicit
-// Since there's no [[implicit]] attribute
-#define UTIL_IMPLICIT    /*[[implicit]]*/
-
-// To explicitly state that a result type can be discarable
-#define UTIL_DISCARDABLE /*[[discardable]]*/
-
-// To explicitly state that a variable is intentionally not initialised
-#define UTIL_UNINIT /*[[uninit]]*/
-
-
 #ifdef __GNUC__
     #define UTIL_ALWAYS_INLINE inline __attribute__( (always_inline) )
 #else

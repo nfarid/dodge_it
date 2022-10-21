@@ -23,8 +23,8 @@ namespace
 
 PixelDisplacement getWindowSize(SDL_Window* window) {
     using Util::Real;
-    UTIL_UNINIT int w;
-    UTIL_UNINIT int h;
+    /*[[uninit]]*/ int w;
+    /*[[uninit]]*/ int h;
     SDL_GetWindowSize(window, &w, &h);
     return {
         PixelDistance{static_cast<Real>(w)},
@@ -57,7 +57,7 @@ createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, U
 }
 
 std::span<const uint8_t> keyboardState() {
-    UTIL_UNINIT int len;
+    /*[[uninit]]*/ int len;
     const uint8_t* ptr = SDL_GetKeyboardState(&len);
     return {ptr, static_cast<size_t>(len)};
 }

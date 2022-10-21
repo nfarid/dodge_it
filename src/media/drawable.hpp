@@ -24,9 +24,9 @@ protected:
     virtual ~Drawable() = default;
     // Rule of 5
     explicit Drawable() = default;
-    UTIL_IMPLICIT Drawable(const Drawable&) = default;
+    /*[[implicit]]*/ Drawable(const Drawable&) = default;
     Drawable& operator=(const Drawable&) = default;
-    UTIL_IMPLICIT Drawable(Drawable&&) = default;
+    /*[[implicit]]*/ Drawable(Drawable&&) = default;
     Drawable& operator=(Drawable&&) = default;
 
     // The draw method that must be implemented for Drawable classes

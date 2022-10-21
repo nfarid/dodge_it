@@ -41,7 +41,7 @@ struct Animation {
 class Sprite
 {
 public:
-    UTIL_IMPLICIT Sprite(SDL_Texture* texture_, std::vector<Animation> animationLst_);
+    /*[[implicit]]*/ Sprite(SDL_Texture* texture_, std::vector<Animation> animationLst_);
 
     [[nodiscard]] std::array<SDL_Vertex, 4> getVertices(const Util::BaseRect& posRect, const Camera& camera) const;
     [[nodiscard]] SDL_Texture* getTexture() const;

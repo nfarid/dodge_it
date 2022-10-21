@@ -16,8 +16,8 @@ namespace
 
 
 PixelDisplacement getTextureSize(SDL_Texture* texture) {
-    UTIL_UNINIT int w;
-    UTIL_UNINIT int h;
+    /*[[uninit]]*/ int w;
+    /*[[uninit]]*/ int h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     return {
         PixelDistance{static_cast<float>(w)},

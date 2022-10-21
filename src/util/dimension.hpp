@@ -60,7 +60,7 @@ struct Dim {
 
     template<int L_ = L, int M_ = M, int S_ = S,
             typename E_ = std::enable_if_t<(L_ == 0 && M_ == 0 && S_ == 0)> >
-    constexpr UTIL_IMPLICIT operator T() const {
+    constexpr /*[[implicit]]*/ operator T() const {
         return value * R::num / R::den;
     }
 };

@@ -49,13 +49,13 @@ public:
     /**
      * @brief Construct a string view that with data() at nullptr and size() at zero
      */
-    UTIL_IMPLICIT constexpr CStringView() noexcept = default;
+    /*[[implicit]]*/ constexpr CStringView() noexcept = default;
 
     /**
      * @brief Construct a string view from a null terminated C-array
      */
     template<size_type N>
-    UTIL_IMPLICIT constexpr CStringView(const value_type(& arr)[N]) : // NOLINT
+    /*[[implicit]]*/ constexpr CStringView(const value_type(& arr)[N]) : // NOLINT
         m_sv{arr, N-1}
     {
         assert(arr[N-1] == '\0' && "must be null terminated");
@@ -65,7 +65,7 @@ public:
      * @brief Construct a string view from std::string
      */
     template<typename StrType, typename S_ = std::enable_if_t<std::is_same_v<StrType, std::string> > >
-    UTIL_IMPLICIT constexpr CStringView(const StrType& str) :
+    /*[[implicit]]*/ constexpr CStringView(const StrType& str) :
         m_sv{str}
     {}
 
@@ -606,7 +606,7 @@ public:
     /**
      * @brief Implicitly converts a CStringView to a string_view
      */
-    UTIL_IMPLICIT constexpr operator string_view() const noexcept {
+    /*[[implicit]]*/ constexpr operator string_view() const noexcept {
         return m_sv;
     }
 

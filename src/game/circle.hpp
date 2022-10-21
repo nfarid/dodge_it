@@ -14,7 +14,7 @@ struct Circle {
     Util::BaseDistance r;
     Util::BasePosition pos;
 
-    UTIL_DISCARDABLE Util::BasePositionScalar& x() {
+    /*[[discardable]]*/ Util::BasePositionScalar& x() {
         return pos.x;
     }
 
@@ -22,7 +22,7 @@ struct Circle {
         return pos.x;
     }
 
-    UTIL_DISCARDABLE Util::BasePositionScalar& y() {
+    /*[[discardable]]*/ Util::BasePositionScalar& y() {
         return pos.y;
     }
 
