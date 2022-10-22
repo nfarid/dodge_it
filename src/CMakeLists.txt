@@ -28,6 +28,7 @@ add_executable("dodge_it"
     "util/project_info.cpp" "util/project_info.hpp"
     "util/real.hpp"
     "util/rect.hpp"
+    "util/rng.cpp" "util/rng.hpp"
     "util/typedefs.hpp"
     "util/vec2.hpp"
 )
