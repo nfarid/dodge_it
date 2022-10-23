@@ -31,7 +31,7 @@ const Media::Animation circleAnimation = {
 
 
 Enemy::Enemy(SDL_Texture* texture_) :
-    mCircle{.r=2_bl, .pos={10_bl, 10_bl} },
+    mCircle{.radius=2_bl, .centre={10_bl, 10_bl} },
     mSprite{ texture_, {circleAnimation} },
     mVel{ 4_blPs, -4_blPs},
     mMass{1_bm}
@@ -54,7 +54,7 @@ Util::BaseMomentumScalar Enemy::getMomentumY() const {
 }
 
 void Enemy::update(Util::Second dt) {
-    mCircle.pos += mVel * dt;
+    mCircle.centre += mVel * dt;
 }
 
 void Enemy::multipleSpeedX(float x) {

@@ -33,16 +33,16 @@ struct Vec2 {
         return x*x + y*y;
     }
 
-    [[nodiscard]] constexpr auto mag() const {
+    [[nodiscard]] auto magnitude() const {
         return sqrt(x*x + y*y);
     }
 
-    [[nodiscard]] constexpr auto unit() const {
-        const auto magnitude = mag();
-        using NoUnit = decltype(std::declval<U>() / magnitude);
+    [[nodiscard]] auto unit() const {
+        const auto vecMag = magnitude();
+        using NoUnit = decltype(std::declval<U>() / vecMag);
         return Vec2<NoUnit>{
-            x/magnitude,
-            y/magnitude,
+            x/vecMag,
+            y/vecMag,
         };
     }
 

@@ -32,13 +32,13 @@ const Util::BaseSpeed playerSpeed = 5_blPs;
 
 
 Player::Player(SDL_Texture* texture_) :
-    mCircle{.r=1_bl, .pos={20_bl, 20_bl} },
+    mCircle{.radius=1_bl, .centre={20_bl, 20_bl} },
     mSprite{ texture_, {playerAnimation} },
     mVel{ 0_blPs, 0_blPs}
 {}
 
 void Player::update(Util::Second dt) {
-    mCircle.pos += mVel * dt;
+    mCircle.centre += mVel * dt;
 }
 
 void Player::startFollowingMouse() {
@@ -52,7 +52,7 @@ void Player::stopFollowingMouse() {
 void Player::takeMousePosition(Util::BasePosition mousePos_) {
     if(!mFollowMouse)
         return;
-    const auto disp = mousePos_ - mCircle.pos;
+    const auto disp = mousePos_ - mCircle.centre;
     mVel = disp.unit() * playerSpeed;
 }
 

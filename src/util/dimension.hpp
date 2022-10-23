@@ -339,6 +339,12 @@ nearly_equal(Dim<T, L, M, S, R> lhs, Dim<T, L, M, S, R> rhs, T ep)
 // Utility functions
 
 template<typename T, int L, int M, int S, typename R>
+[[nodiscard]] UTIL_ALWAYS_INLINE constexpr auto
+square(Dim<T, L, M, S, R> u) {
+    return Dim<T, L*2, M*2, S*2, R>{u.value * u.value};
+}
+
+template<typename T, int L, int M, int S, typename R>
 [[nodiscard]] inline auto sqrt(Dim<T, L, M, S, R> u) {
     constexpr static auto isEven = [](int x){return (x%2)==0;};
     static_assert(isEven(L), "length dimension must be even");

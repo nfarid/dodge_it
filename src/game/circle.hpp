@@ -5,59 +5,77 @@
 #include "../util/macros.hpp"
 #include "../util/rect.hpp"
 
+#include <cassert>
+
 
 namespace Game
 {
 
 
 struct Circle {
-    Util::BaseDistance r;
-    Util::BasePosition pos;
+    Util::BaseDistance radius;
+    Util::BasePosition centre;
 
-    /*[[discardable]]*/ Util::BasePositionScalar& x() {
-        return pos.x;
+    /*[[discardable]]*/ constexpr Util::BasePositionScalar& x() {
+        return centre.x;
     }
 
-    [[nodiscard]] Util::BasePositionScalar x() const {
-        return pos.x;
+    [[nodiscard]] constexpr Util::BasePositionScalar x() const {
+        return centre.x;
     }
 
-    /*[[discardable]]*/ Util::BasePositionScalar& y() {
-        return pos.y;
+    /*[[discardable]]*/ constexpr Util::BasePositionScalar& y() {
+        return centre.y;
     }
 
-    [[nodiscard]] Util::BasePositionScalar y() const {
-        return pos.y;
+    [[nodiscard]] constexpr Util::BasePositionScalar y() const {
+        return centre.y;
     }
 
-    [[nodiscard]] Util::BaseRect aabb() const {
-        return Util::BaseRect::centreSize(pos, {r*2.0f, r*2.0f});
+    [[nodiscard]] constexpr Util::BaseRect aabb() const {
+        return Util::BaseRect::centreSize(centre, {radius*2.0f, radius*2.0f});
     }
 
-    [[nodiscard]] Util::BasePositionScalar left() const {
-        return x() - r;
+    [[nodiscard]] constexpr Util::BasePositionScalar left() const {
+        return x() - radius;
     }
 
-    [[nodiscard]] Util::BasePositionScalar right() const {
-        return x() + r;
+    [[nodiscard]] constexpr Util::BasePositionScalar right() const {
+        return x() + radius;
     }
 
-    [[nodiscard]] Util::BasePositionScalar top() const {
-        return y() - r;
+    [[nodiscard]] constexpr Util::BasePositionScalar top() const {
+        return y() - radius;
     }
 
-    [[nodiscard]] Util::BasePositionScalar bottom() const {
-        return y() + r;
+    [[nodiscard]] constexpr Util::BasePositionScalar bottom() const {
+        return y() + radius;
     }
 
-    [[nodiscard]] bool isValid() const {
-        return r >= Util::BaseDistance::zero();
+    [[nodiscard]] constexpr bool isValid() const {
+        return radius >= Util::BaseDistance::zero();
     }
 
     void makeValid() {
-        r = abs(r);
+        // TODO: make a constexpr abs()
+        radius = abs(radius);
     }
 };
+
+
+/**
+ * @brief Checks if 2 circles are interesecting
+ * @param lhs - One of the valid circles to be tested for collision
+ * @param rhs - One of the valid circles to be tested for collision
+ * @note If only the edges are touching (i.e. interesection length is zero) then it return false
+ */
+[[nodiscard]] constexpr bool
+hasCollision(const Circle& lhs, const Circle& rhs) {
+    assert(lhs.isValid() && rhs.isValid() && "hasCollision needs both circles to be valid");
+    const auto distSq = (lhs.centre - rhs.centre).squareMag();
+    const auto totalRadSq = square(lhs.radius + rhs.radius);
+    return distSq < totalRadSq;
+}
 
 
 } // namespace Game
