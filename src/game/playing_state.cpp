@@ -29,7 +29,9 @@ constexpr auto worldRect = Util::BaseRect::leftTopSize({0_bl, 0_bl}, worldSize);
 PlayingState::PlayingState(Media::GameContext& ctx_) :
     Media::GameState{ctx_},
     mEnemyLst{},
-    mPlayer{ctx_.resourceManager.getTexture("circles")}
+    mPlayer{ctx_.resourceManager.getTexture("circles")},
+    mRng{},
+    mTimeUntilEnemySpawn{0_s}
 {}
 
 void PlayingState::handleInput() {
@@ -62,6 +64,16 @@ void PlayingState::update(Util::Second dt) {
     }
 
     mPlayer.update(dt);
+
+    mTimeUntilEnemySpawn -= dt;
+    if(mTimeUntilEnemySpawn <= 0_s) {
+        mTimeUntilEnemySpawn = 5_s;
+        const Util::BaseDistance r{mRng.getFloat(0.25, 2.5)};
+        const Util::BasePositionScalar cx{mRng.getFloat(worldRect.left().value, worldRect.right().value)};
+        const Util::BasePositionScalar cy{mRng.getFloat(worldRect.top().value, worldRect.bottom().value)};
+        const Circle circle{.radius=r, .centre={cx, cy} };
+        mEnemyLst.emplace_back(rCtx.resourceManager.getTexture("circles"), circle);
+    }
 }
 
 void PlayingState::draw() {

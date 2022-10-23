@@ -7,6 +7,8 @@
 
 #include "../media/game_state.hpp"
 
+#include "../util/rng.hpp"
+
 #include <vector>
 
 
@@ -25,6 +27,8 @@ public:
 private:
     std::vector<Enemy> mEnemyLst{};
     Player mPlayer;
+    Util::Rng mRng{};
+    Util::Second mTimeUntilEnemySpawn{};
 };
 
 

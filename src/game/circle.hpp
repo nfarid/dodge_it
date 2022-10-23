@@ -32,6 +32,14 @@ struct Circle {
         return centre.y;
     }
 
+    /*[[discardable]]*/ constexpr Util::BasePositionScalar& r() {
+        return radius;
+    }
+
+    [[nodiscard]] constexpr Util::BasePositionScalar r() const {
+        return radius;
+    }
+
     [[nodiscard]] constexpr Util::BaseRect aabb() const {
         return Util::BaseRect::centreSize(centre, {radius*2.0f, radius*2.0f});
     }

@@ -1,6 +1,7 @@
 
 #include "rng.hpp"
 
+#include <cassert>
 #include <chrono>
 
 
@@ -28,6 +29,8 @@ Rng::Rng() :
 {}
 
 float Rng::getFloat(float minimum, float maximum) {
+    assert(minimum <= maximum);
+    assert(maximum - minimum <= std::numeric_limits<float>::max() );
     std::uniform_real_distribution distr{minimum, maximum};
     return distr(mRngEngine);
 }
