@@ -31,7 +31,8 @@ PlayingState::PlayingState(Media::GameContext& ctx_) :
     mEnemyLst{},
     mPlayer{ctx_.resourceManager.getTexture("circles")},
     mRng{},
-    mTimeUntilEnemySpawn{0_s}
+    mTimeUntilEnemySpawn{0_s},
+    mTimeSurvived{0_s}
 {}
 
 void PlayingState::handleInput() {
@@ -55,6 +56,8 @@ void PlayingState::handleInput() {
 }
 
 void PlayingState::update(Util::Second dt) {
+    mTimeSurvived += dt;
+
     for(auto& enemy : mEnemyLst) {
         enemy.update(dt);
         if(enemy.getCircle().top() <= worldRect.top() || enemy.getCircle().bottom() >= worldRect.bottom() )

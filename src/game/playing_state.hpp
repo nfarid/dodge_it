@@ -29,6 +29,7 @@ private:
     Player mPlayer;
     Util::Rng mRng{};
     Util::Second mTimeUntilEnemySpawn{};
+    Util::Second mTimeSurvived{};
 };
 
 
