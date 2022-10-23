@@ -125,9 +125,10 @@ void ResourceManager::loadFont(const std::filesystem::path& relativePath, std::s
     std::unique_ptr<FC_Font, decltype(&FC_FreeFont)> font{FC_CreateFont(), &FC_FreeFont};
     // TODO: Add check for null (no point now since FC_CreateFont is broken if malloc returns null)
 
-    // Font is size:20, colour:black, style:normal (todo: add options for these)
+    // Font is size:20, colour:grey, style:normal
+    // TODO: add options for these
     constexpr int fontSize = 20;
-    constexpr SDL_Colour fontColour = {0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE};
+    constexpr SDL_Colour fontColour = {0x80, 0x80, 0x80, SDL_ALPHA_OPAQUE};
     constexpr auto fontStyle = TTF_STYLE_NORMAL;
     // Fc_LoadFont returns 0 on error, 1 on success
     if( !FC_LoadFont(font.get(), rRenderer, C_STR(absolutePath), fontSize, fontColour, fontStyle) )

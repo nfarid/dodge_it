@@ -4,6 +4,10 @@
 
 #include "../media/game_state.hpp"
 
+#include <SDL_FontCache/SDL_FontCache.h>
+
+#include <string>
+
 
 namespace Menu
 {
@@ -18,7 +22,8 @@ public:
     void draw() override;
 
 private:
-    Util::Second mTimeSurvived;
+    std::string mTimeSurvived{};
+    FC_Font* mFont{};
 };
 
 

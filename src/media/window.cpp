@@ -42,8 +42,8 @@ createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, U
     const auto width = static_cast<int>(windowSize.x.value);
     const auto height = static_cast<int>(windowSize.y.value);
 
-    /*uninitialised*/ Util::DumbPtr<SDL_Window> window;
-    /*uninitialised*/ Util::DumbPtr<SDL_Renderer> renderer;
+    /*[[uninit]]*/ Util::DumbPtr<SDL_Window> window;
+    /*[[uninit]]*/ Util::DumbPtr<SDL_Renderer> renderer;
     if(SDL_CreateWindowAndRenderer(width, height, windowFlags, &window, &renderer) != 0)
         throw std::runtime_error("Unable to create renderer or window:\n"s + SDL_GetError() );
 
@@ -57,7 +57,7 @@ createSDLRendererWindow(Util::CStringView title, PixelDisplacement windowSize, U
 }
 
 std::span<const uint8_t> keyboardState() {
-    /*[[uninit]]*/ int len;
+    int len; /*[[uninit]]*/
     const uint8_t* ptr = SDL_GetKeyboardState(&len);
     return {ptr, static_cast<size_t>(len)};
 }
@@ -70,8 +70,8 @@ Window::Window(SDLRendererUniquePtr&& renderer_, SDLWindowUniquePtr&& window_) :
 {}
 
 PixelDisplacement Window::currentSize() const {
-    int w; /*uninitialised*/
-    /*uninitialised*/ int h;
+    int w; /*[[uninit]]*/
+    /*[[uninit]]*/ int h;
     SDL_GetWindowSize(mWindow.get(), &w, &h);
     return {
         PixelDistance{static_cast<float>(w)},
@@ -80,8 +80,8 @@ PixelDisplacement Window::currentSize() const {
 }
 
 Util::BasePosition Window::mouseWorldCoord() const {
-    int x; /*uninitialised*/
-    /*uninitialised*/ int y;
+    int x; /*[[uninit]]*/
+    /*[[uninit]]*/ int y;
     SDL_GetMouseState(&x, &y);
     const PixelDisplacement mouseExactScreenPos{
         PixelDistance{static_cast<float>(x)},
@@ -133,6 +133,12 @@ void Window::draw(const PixelRect& rect, SDL_Color colour) {
     };
     SDL_SetRenderDrawColor(mRenderer.get(), colour.r, colour.g, colour.b, colour.a);
     SDL_RenderFillRectF(mRenderer.get(), &drawRect);
+}
+
+void Window::draw(FC_Font* font, PixelPosition leftTop, Util::CStringView text)
+{
+    const auto [left, top] = leftTop;
+    FC_Draw(font, mRenderer.get(), left.value, top.value, text.data() );
 }
 
 void Window::display() {

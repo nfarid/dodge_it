@@ -4,6 +4,8 @@
 #include "../media/core.hpp"
 #include "../media/game_context.hpp"
 
+#include "../menu_states/game_over.hpp"
+
 #include <SDL2/SDL_events.h>
 
 
@@ -64,6 +66,11 @@ void PlayingState::update(Util::Second dt) {
             enemy.applyImpulseY(-2.0f * enemy.getMomentumY() );
         if(enemy.getCircle().left() <= worldRect.left() || enemy.getCircle().right() >= worldRect.right() )
             enemy.applyImpulseX(-2.0f * enemy.getMomentumX() );
+
+        if(hasCollision(enemy.getCircle(), mPlayer.getCircle() ) ) {
+            auto nextState = std::make_unique<Menu::GameOverState>(rCtx, mTimeSurvived);
+            rCtx.stateMachine.addState(std::move(nextState) );
+        }
     }
 
     mPlayer.update(dt);

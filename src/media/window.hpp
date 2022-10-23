@@ -8,6 +8,8 @@
 #include "../util/rect.hpp"
 #include "../util/typedefs.hpp"
 
+#include <SDL_FontCache/SDL_FontCache.h>
+
 #include <SDL2/SDL_render.h>
 
 #include <memory>
@@ -67,6 +69,7 @@ public:
     void draw(const Drawable& drawable);
     void draw(const Sprite& sprite, const Util::BaseRect& posRect);
     void draw(const PixelRect& rect, SDL_Colour colour);
+    void draw(FC_Font* font, PixelPosition leftTop, Util::CStringView text);
     void display();
 
 private:
