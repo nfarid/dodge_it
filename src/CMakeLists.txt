@@ -20,6 +20,8 @@ add_executable("dodge_it"
     "media/sprite.cpp" "media/sprite.hpp"
     "media/window.cpp" "media/window.hpp"
 
+    "menu_states/game_over.cpp" "menu_states/game_over.hpp"
+
     "util/cstring_view.hpp"
     "util/dimension.hpp"
     "util/finally.hpp"
