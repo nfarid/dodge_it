@@ -37,6 +37,10 @@ Player::Player(SDL_Texture* texture_) :
     mVel{ 0_blPs, 0_blPs}
 {}
 
+Circle Player::getCircle() const {
+    return mCircle;
+}
+
 void Player::update(Util::Second dt) {
     mCircle.centre += mVel * dt;
 }

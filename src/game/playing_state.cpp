@@ -28,7 +28,7 @@ constexpr auto worldRect = Util::BaseRect::leftTopSize({0_bl, 0_bl}, worldSize);
 
 PlayingState::PlayingState(Media::GameContext& ctx_) :
     Media::GameState{ctx_},
-    mEnemy{ctx_.resourceManager.getTexture("circles")},
+    mEnemyLst{},
     mPlayer{ctx_.resourceManager.getTexture("circles")}
 {}
 
@@ -53,11 +53,13 @@ void PlayingState::handleInput() {
 }
 
 void PlayingState::update(Util::Second dt) {
-    mEnemy.update(dt);
-    if(mEnemy.getCircle().top() <= worldRect.top() || mEnemy.getCircle().bottom() >= worldRect.bottom() )
-        mEnemy.applyImpulseY(-2.0f * mEnemy.getMomentumY() );
-    if(mEnemy.getCircle().left() <= worldRect.left() || mEnemy.getCircle().right() >= worldRect.right() )
-        mEnemy.applyImpulseX(-2.0f * mEnemy.getMomentumX() );
+    for(auto& enemy : mEnemyLst) {
+        enemy.update(dt);
+        if(enemy.getCircle().top() <= worldRect.top() || enemy.getCircle().bottom() >= worldRect.bottom() )
+            enemy.applyImpulseY(-2.0f * enemy.getMomentumY() );
+        if(enemy.getCircle().left() <= worldRect.left() || enemy.getCircle().right() >= worldRect.right() )
+            enemy.applyImpulseX(-2.0f * enemy.getMomentumX() );
+    }
 
     mPlayer.update(dt);
 }
@@ -65,7 +67,8 @@ void PlayingState::update(Util::Second dt) {
 void PlayingState::draw() {
     auto& window = rCtx.window;
     window.clear();
-    window.draw(mEnemy);
+    for(const auto& enemy : mEnemyLst)
+        window.draw(enemy);
     window.draw(mPlayer);
     window.display();
 }

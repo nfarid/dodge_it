@@ -20,6 +20,8 @@ class Player : public Media::Drawable  {
 public:
     explicit Player(SDL_Texture* texture_);
 
+    Circle getCircle() const;
+
     void update(Util::Second dt);
 
     void startFollowingMouse();

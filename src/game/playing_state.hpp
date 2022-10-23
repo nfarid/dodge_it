@@ -7,6 +7,8 @@
 
 #include "../media/game_state.hpp"
 
+#include <vector>
+
 
 namespace Game
 {
@@ -21,7 +23,7 @@ public:
     void draw() override;
 
 private:
-    Enemy mEnemy;
+    std::vector<Enemy> mEnemyLst{};
     Player mPlayer;
 };
 

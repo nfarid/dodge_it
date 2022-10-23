@@ -30,8 +30,8 @@ const Media::Animation circleAnimation = {
 } // namespace
 
 
-Enemy::Enemy(SDL_Texture* texture_) :
-    mCircle{.radius=2_bl, .centre={10_bl, 10_bl} },
+Enemy::Enemy(SDL_Texture* texture_, Circle circle_) :
+    mCircle{circle_},
     mSprite{ texture_, {circleAnimation} },
     mVel{ 4_blPs, -4_blPs},
     mMass{1_bm}

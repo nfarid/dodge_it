@@ -16,7 +16,7 @@ namespace Game
 
 class Enemy : public Media::Drawable {
 public:
-    explicit Enemy(SDL_Texture* texture_);
+    explicit Enemy(SDL_Texture* texture_, Circle circle_);
 
     Circle getCircle() const;
     Util::BaseMomentum getMomentum() const;
